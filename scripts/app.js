@@ -40,6 +40,8 @@ const updatecity = async (city) => {
     const citydetails = await getcity(city);
     const weatherdetails = await getweather(citydetails.Key);
 
+    localStorage.setItem('city', city);
+
     return {citydetails,weatherdetails};//object shorthand notation
 };
 
@@ -55,3 +57,10 @@ cityform.addEventListener('submit', e => {
             console.log(err);
         });
 });
+
+//automatically showing the most recent result
+if(localStorage.getItem('city')){
+    updatecity(localStorage.getItem('city'))
+        .then((data) =>{updateui(data);})
+        .catch((err) => {console.log(err);});
+}
